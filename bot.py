@@ -34,6 +34,11 @@ def send_welcome(message):
 def handle_login(call):
     bot.answer_callback_query(call.id)
 
+    try:
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+    except Exception as e:
+        print(e)
+
     if call.data == "register":
         msg = bot.send_message(
             call.message.chat.id,
@@ -49,62 +54,128 @@ def handle_login(call):
         bot.register_next_step_handler(msg, process_email)
 
 def process_register_email(message):
-    email = message.text
+    email = message.text.strip()
+
+    if not email:
+        msg = bot.send_message(message.chat.id, "Email не может быть пустым ❌\nВведите снова:")
+        bot.register_next_step_handler(msg, process_register_email)
+        return
+
+    try:
+        bot.delete_message(message.chat.id, message.message_id)
+    except Exception as e:
+        print(e)
 
     msg = bot.send_message(
         message.chat.id,
         "Введите пароль:"
     )
-    bot.register_next_step_handler(msg, process_register_password)
+    bot.register_next_step_handler(msg, process_register_password, email)
 
-def process_register_password(message, email):
-    password = message.text
+def process_register_password(message, email, bot_message_id = None):
+    password = message.text.strip()
+    if not password:
+        msg = bot.send_message(message.chat.id, "Пароль не может быть пустым ❌\nВведите снова:")
+        bot.register_next_step_handler(msg, process_register_password, email)
+        return
+
+    try:
+        bot.delete_message(message.chat.id, message.message_id)
+    except Exception as e:
+        print("Не удалось удалить сообщение:", e)
 
     telegram_id = message.from_user.id
 
-    data = api.register(telegram_id, email, password)
+    data = api.register(email, password, telegram_id)
+    print(data) # TEST
 
-    if not data or "error" in data:
-        bot.send_message(
+    if not data:
+        msg = bot.send_message(
             message.chat.id,
-            "Ошибка регистрации ❌"
+            "Ошибка соединения ❌\nВведите email:"
         )
+        bot.register_next_step_handler(msg, process_register_email)
         return
-    token = data("token")
+
+    if "error" in data:
+        msg = bot.send_message(message.chat.id, "Ошибка соединения ❌\nВведите email:")
+        bot.register_next_step_handler(msg, process_register_email)
+        return
+
+    if data.get("status") == "Failed":
+        msg = bot.send_message(
+            message.chat.id, "Такой пользователь уже существует ❌\Введите email:"
+        )
+        bot.register_next_step_handler(msg, process_register_email)
+        return
+
+    token = data.get("access_token")
     if token:
-        user_id = message.from_user.id
-        user_tokens[user_id] = token
+        user_tokens[telegram_id] = token
 
     bot.send_message(
         message.chat.id,
         "Вы успешно зарегистрированы ✅"
     )
+    send_main_menu(message)
+
 
 def process_email(message):
     email = message.text
+    if not email:
+        msg = bot.send_message(message.chat.id, "Email не может быть пустым ❌\nВведите снова:")
+        bot.register_next_step_handler(msg, process_email)
+        return
 
+    try:
+        bot.delete_message(message.chat.id, message.message_id)
+    except Exception as e: print(e)
     msg = bot.send_message(
         message.chat.id,
         "Введите пароль:"
     )
-
     bot.register_next_step_handler(msg, process_password, email)
 
 def process_password(message, email):
-    password = message.text
-
-    data = api.login(email, password)
-
-    if not data or "token" not in data:
-        bot.send_message(
-            message.chat.id,
-            "Неверный email или пароль ❌"
-        )
+    password = message.text.strip()
+    if not password:
+        msg = bot.send_message(message.chat.id, "Пароль не может быть пустым ❌\nВведите снова:")
+        bot.register_next_step_handler(msg, process_password, email)
         return
 
-    token = data.get("token")
+    try:
+        bot.delete_message(message.chat.id, message.message_id)
+    except Exception as e: print(e)
 
-    user_id = data.from_user.id
+    data = api.login(email, password)
+    print(data) #TEST
+
+    if not data:
+        msg = bot.send_message(
+            message.chat.id,
+            "Ошибка соединения с сервером 🌐\nПопробуйте снова ввести пароль:"
+        )
+        bot.register_next_step_handler(msg, process_password, email)
+        return
+
+    if "error" in data:
+        msg = bot.send_message(
+            message.chat.id,
+            "Ошибка авторизации ❌\nВведите пароль снова:"
+        )
+        bot.register_next_step_handler(msg, process_password, email)
+        return
+
+    token = data.get("access_token")
+    if not token:
+        msg = bot.send_message(
+            message.chat.id,
+            "Неверный email или пароль ❌\nВведите email"
+        )
+        bot.register_next_step_handler(msg, process_email)
+        return
+
+    user_id = message.from_user.id
     user_tokens[user_id] = token
 
     bot.send_message(
@@ -123,7 +194,7 @@ def send_main_menu(message):
 
     bot.send_message(
         message.chat.id,
-        " ",
+        "Главное меню:",
         reply_markup=keyboard
     )
 
