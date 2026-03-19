@@ -36,21 +36,15 @@ def handle_login(call):
 
     try:
         bot.delete_message(call.message.chat.id, call.message.message_id)
-    except Exception as e:
-        print(e)
+    except:
+        pass
 
     if call.data == "register":
-        msg = bot.send_message(
-            call.message.chat.id,
-            "Введите email"
-        )
+        msg = bot.send_message(call.message.chat.id, "Введите email")
         bot.register_next_step_handler(msg, process_register_email)
 
     elif call.data == "login":
-        msg = bot.send_message(
-            call.message.chat.id,
-            "Введите email:"
-        )
+        msg = bot.send_message(call.message.chat.id, "Введите email:")
         bot.register_next_step_handler(msg, process_email, msg.message_id)
 
 
@@ -78,7 +72,7 @@ def process_register_email(message):
     )
 
 
-def process_register_password(message, email, bot_msg_id):
+def process_register_password(message, email, bot_msg_id=None):
     password = message.text.strip()
 
     if not is_valid_password(password):
@@ -93,7 +87,8 @@ def process_register_password(message, email, bot_msg_id):
 
     try:
         bot.delete_message(message.chat.id, message.message_id)
-        bot.delete_message(message.chat.id, bot_msg_id)
+        if bot_msg_id:
+            bot.delete_message(message.chat.id, bot_msg_id)
     except:
         pass
 
@@ -102,12 +97,7 @@ def process_register_password(message, email, bot_msg_id):
     data = api.register(email, password, telegram_id)
     print(data)
 
-    if handle_api_response(
-        bot,
-        message,
-        data,
-        process_register_email
-    ):
+    if handle_api_response(bot, message, data, process_register_email):
         return
 
     token = data.get("access_token")
@@ -120,21 +110,18 @@ def process_register_password(message, email, bot_msg_id):
 
 # LOGIN
 
-def process_email(message, bot_msg_id):
+def process_email(message, bot_msg_id=None):
     email = message.text.strip()
 
     if not is_valid_email(email):
         msg = bot.send_message(message.chat.id, "Введите корректный email ❌\nПопробуйте снова:")
-        bot.register_next_step_handler(
-            msg,
-            process_email,
-            msg.message_id
-        )
+        bot.register_next_step_handler(msg, process_email)
         return
 
     try:
         bot.delete_message(message.chat.id, message.message_id)
-        bot.delete_message(message.chat.id, bot_msg_id)
+        if bot_msg_id:
+            bot.delete_message(message.chat.id, bot_msg_id)
     except:
         pass
 
@@ -147,7 +134,7 @@ def process_email(message, bot_msg_id):
     )
 
 
-def process_password(message, email, bot_msg_id):
+def process_password(message, email, bot_msg_id=None):
     password = message.text.strip()
 
     if not is_valid_password(password):
@@ -162,19 +149,15 @@ def process_password(message, email, bot_msg_id):
 
     try:
         bot.delete_message(message.chat.id, message.message_id)
-        bot.delete_message(message.chat.id, bot_msg_id)
+        if bot_msg_id:
+            bot.delete_message(message.chat.id, bot_msg_id)
     except:
         pass
 
     data = api.login(email, password)
     print(data)
 
-    if handle_api_response(
-        bot,
-        message,
-        data,
-        process_email
-    ):
+    if handle_api_response(bot, message, data, process_email):
         return
 
     token = data.get("access_token")
@@ -183,11 +166,7 @@ def process_password(message, email, bot_msg_id):
             message.chat.id,
             "Неверный email или пароль ❌\nВведите email:"
         )
-        bot.register_next_step_handler(
-            msg,
-            process_email,
-            msg.message_id
-        )
+        bot.register_next_step_handler(msg, process_email)
         return
 
     user_id = message.from_user.id
@@ -265,7 +244,30 @@ def send_main_menu(message):
 
 @bot.message_handler(func=lambda message: message.text == "🪙 Проверить баланс")
 def handle_check_balance(message):
-    bot.send_message(message.chat.id, "Скоро будет доступно")
+    user_id = message.from_user.id
+
+    token = user_tokens.get(user_id)
+
+    if not token:
+        msg = bot.send_message(
+            message.chat.id,
+            "Вы не авторизованы ❌\nВведите email:"
+        )
+        bot.register_next_step_handler(msg, process_email, msg.message_id)
+        return
+    print("TOKEN:", token) #TEST
+    data = api.get_current_user(token)
+    print("DATA:", data) #TEST
+    if handle_api_response(bot, message, data, process_email):
+        return
+
+    user = data.get("user", {})
+    balance = user.get("balance", 0)
+
+    bot.send_message(
+        message.chat.id,
+        f"💰 Ваш баланс: {balance}"
+    )
 
 @bot.message_handler(func=lambda message: message.text == "📥 Пополнить баланс")
 def handle_pay_balance(message):
