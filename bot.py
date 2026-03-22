@@ -14,6 +14,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 print("BOT_TOKEN:", BOT_TOKEN)
 bot = telebot.TeleBot(BOT_TOKEN)
+bot = telebot.TeleBot(BOT_TOKEN, threaded=True)
 api = ServerAPI()
 user_tokens = {}
 
@@ -42,6 +43,9 @@ def send_welcome(message):
         import traceback
         traceback.print_exc()
 
+@bot.message_handler(func=lambda message: True)
+def debug_all(message):
+    print("🔥 ANY MESSAGE:", message.text)
 
 @bot.callback_query_handler(func=lambda call: True)
 def handle_login(call):
@@ -458,16 +462,20 @@ def index():
 def webhook():
     json_str = request.get_data().decode('UTF-8')
     print("📥 Received update:", json_str)
+
     try:
-        update = Update.de_json(json_str)
-        print(f"✅ Update object created, update_id={update.update_id}")
+        json_data = json.loads(json_str)
+        update = telebot.types.Update.de_json(json_data)
+
         bot.process_new_updates([update])
+
         print("✅ Updates processed by bot")
+
     except Exception as e:
         print(f"❌ Error processing update: {e}")
-        import traceback
         traceback.print_exc()
         return 'Error', 500
+
     return 'OK', 200
 
 def set_webhook():
