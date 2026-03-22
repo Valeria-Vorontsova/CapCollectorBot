@@ -1,0 +1,122 @@
+Index: requirements.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>pyTelegramBotAPI\r\nrequests\r\npython-dotenv
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/requirements.txt b/requirements.txt
+--- a/requirements.txt	(revision 382cd480046cb072c9597e4e893405b4c30d191a)
++++ b/requirements.txt	(date 1774202503282)
+@@ -1,3 +1,5 @@
+ pyTelegramBotAPI
+ requests
+-python-dotenv
+\ No newline at end of file
++python-dotenv
++gunicorn
++flask
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"bc04733f-28ff-435d-8099-1c05332efc1f\" name=\"Changes\" comment=\"rollback\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ServerAPI.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ServerAPI.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/bot.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/bot.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;Valeria-Vorontsova&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/Valeria-Vorontsova/CapCollectorBot.git&quot;,\r\n    &quot;accountId&quot;: &quot;c0af27aa-53a0-413d-8812-0efa4786a5f8&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"DEPENDENCY_CHECKER_PROBLEMS_TAB\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 3\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"3AhyqPNpSw1eoONKbgyxvvYyHzf\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\r\n    \"Python.ServerAPI.executor\": \"Run\",\r\n    \"Python.bot.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"changes\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-1bde30d8e611-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.130\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"bc04733f-28ff-435d-8099-1c05332efc1f\" name=\"Changes\" comment=\"\" />\r\n      <created>1773059286398</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1773059286398</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"заглушки\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773513971234</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773513971234</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"api register, login\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773774650290</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773774650291</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"register login done\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773854222800</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773854222800</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"code fixes\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773916258211</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773916258211</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"new api url, balance check, fixes\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773932647413</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773932647413</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"new handle_api_response, new process machine code methods, timer, queue\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1774183502817</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1774183502817</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"rollback\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1774183856598</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1774183856598</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"8\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"заглушки\" />\r\n    <MESSAGE value=\"api register, login\" />\r\n    <MESSAGE value=\"register login done\" />\r\n    <MESSAGE value=\"code fixes\" />\r\n    <MESSAGE value=\"new api url, balance check, fixes\" />\r\n    <MESSAGE value=\"new handle_api_response, new process machine code methods, timer, queue\" />\r\n    <MESSAGE value=\"rollback\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"rollback\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 382cd480046cb072c9597e4e893405b4c30d191a)
++++ b/.idea/workspace.xml	(date 1774201768859)
+@@ -4,9 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="rollback">
++    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="almost done1">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ServerAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/ServerAPI.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -35,12 +34,22 @@
+     &quot;assignee&quot;: &quot;Valeria-Vorontsova&quot;
+   }
+ }</component>
+-  <component name="GithubPullRequestsUISettings">{
+-  &quot;selectedUrlAndAccountId&quot;: {
+-    &quot;url&quot;: &quot;https://github.com/Valeria-Vorontsova/CapCollectorBot.git&quot;,
+-    &quot;accountId&quot;: &quot;c0af27aa-53a0-413d-8812-0efa4786a5f8&quot;
+-  }
+-}</component>
++  <component name="GithubPullRequestsUISettings"><![CDATA[{
++  "selectedUrlAndAccountId": {
++    "url": "https://github.com/Valeria-Vorontsova/CapCollectorBot.git",
++    "accountId": "c0af27aa-53a0-413d-8812-0efa4786a5f8"
++  },
++  "recentNewPullRequestHead": {
++    "server": {
++      "useHttp": false,
++      "host": "github.com",
++      "port": null,
++      "suffix": null
++    },
++    "owner": "Valeria-Vorontsova",
++    "repository": "CapCollectorBot"
++  }
++}]]></component>
+   <component name="ProblemsViewState">
+     <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+   </component>
+@@ -60,7 +69,7 @@
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+     "RunOnceActivity.git.unshallow": "true",
+-    "git-widget-placeholder": "changes"
++    "git-widget-placeholder": "#1 on changes"
+   }
+ }]]></component>
+   <component name="SharedIndexes">
+@@ -134,7 +143,31 @@
+       <option name="project" value="LOCAL" />
+       <updated>1774183856598</updated>
+     </task>
+-    <option name="localTasksCounter" value="8" />
++    <task id="LOCAL-00008" summary="almost done">
++      <option name="closed" value="true" />
++      <created>1774193351203</created>
++      <option name="number" value="00008" />
++      <option name="presentableId" value="LOCAL-00008" />
++      <option name="project" value="LOCAL" />
++      <updated>1774193351203</updated>
++    </task>
++    <task id="LOCAL-00009" summary="almost done">
++      <option name="closed" value="true" />
++      <created>1774194448146</created>
++      <option name="number" value="00009" />
++      <option name="presentableId" value="LOCAL-00009" />
++      <option name="project" value="LOCAL" />
++      <updated>1774194448146</updated>
++    </task>
++    <task id="LOCAL-00010" summary="almost done1">
++      <option name="closed" value="true" />
++      <created>1774194947734</created>
++      <option name="number" value="00010" />
++      <option name="presentableId" value="LOCAL-00010" />
++      <option name="project" value="LOCAL" />
++      <updated>1774194947734</updated>
++    </task>
++    <option name="localTasksCounter" value="11" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -156,6 +189,8 @@
+     <MESSAGE value="new api url, balance check, fixes" />
+     <MESSAGE value="new handle_api_response, new process machine code methods, timer, queue" />
+     <MESSAGE value="rollback" />
+-    <option name="LAST_COMMIT_MESSAGE" value="rollback" />
++    <MESSAGE value="almost done" />
++    <MESSAGE value="almost done1" />
++    <option name="LAST_COMMIT_MESSAGE" value="almost done1" />
+   </component>
+ </project>
+\ No newline at end of file
