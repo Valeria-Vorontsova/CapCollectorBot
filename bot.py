@@ -466,10 +466,3 @@ if __name__ == '__main__':
     # Для локального запуска (не используется на Render)
     app.run(host='0.0.0.0', port=8000)
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    print("📨 Webhook received")   # Это появится в логах Render
-    json_str = request.get_data().decode('UTF-8')
-    update = Update.de_json(json_str, bot)
-    bot.process_new_updates([update])
-    return 'OK', 200
