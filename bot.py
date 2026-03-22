@@ -471,16 +471,19 @@ def webhook():
     return 'OK', 200
 
 def set_webhook():
-    print("DEBUG: inside set_webhook")
-    bot.remove_webhook()
     webhook_url = 'https://capcollectorbot.onrender.com/webhook'
+
+    bot.remove_webhook()
     success = bot.set_webhook(url=webhook_url)
-    print(f"Webhook set to {webhook_url}, success: {success}")
+
+    print("Webhook set:", success)
+    print("Webhook info:", bot.get_webhook_info())
 
 print("DEBUG: before set_webhook")
 set_webhook()
 print("DEBUG: after set_webhook")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
 
