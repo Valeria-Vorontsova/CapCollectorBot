@@ -458,15 +458,14 @@ app = Flask(__name__)
 def index():
     return "Bot is running"
 
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    json_str = request.get_data().decode('UTF-8')
-    print("📥 Received update:", json_str)
-
     try:
-        json_data = json.loads(json_str)
-        update = telebot.types.Update.de_json(json_data)
+        json_data = request.get_json()
+        print("📥 Received update:", json_data)
 
+        update = telebot.types.Update.de_json(json_data)
         bot.process_new_updates([update])
 
         print("✅ Updates processed by bot")
@@ -478,20 +477,24 @@ def webhook():
 
     return 'OK', 200
 
+
 def set_webhook():
     webhook_url = 'https://capcollectorbot.onrender.com/webhook'
 
-    bot.remove_webhook()
-    success = bot.set_webhook(url=webhook_url)
+    try:
+        bot.remove_webhook()
+        success = bot.set_webhook(url=webhook_url)
 
-    print("Webhook set:", success)
-    print("Webhook info:", bot.get_webhook_info())
+        print("Webhook set:", success)
+        print("Webhook info:", bot.get_webhook_info())
 
-print("DEBUG: before set_webhook")
-set_webhook()
-print("DEBUG: after set_webhook")
+    except Exception as e:
+        print("❌ Webhook error:", e)
 
 if __name__ == '__main__':
+    print("DEBUG: before set_webhook")
+    set_webhook()
+    print("DEBUG: after set_webhook")
+
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
-
