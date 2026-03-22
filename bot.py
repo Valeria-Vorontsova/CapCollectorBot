@@ -13,14 +13,13 @@ from telebot.types import Update
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 print("BOT_TOKEN:", BOT_TOKEN)
-bot = telebot.TeleBot(BOT_TOKEN)
-bot = telebot.TeleBot(BOT_TOKEN, threaded=True)
+bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
 api = ServerAPI()
 user_tokens = {}
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    print("🔥 send_welcome called")
+    print("🔥 START HANDLER TRIGGERED")
     try:
         markup = types.InlineKeyboardMarkup()
         btn_register = types.InlineKeyboardButton(
@@ -491,10 +490,10 @@ def set_webhook():
     except Exception as e:
         print("❌ Webhook error:", e)
 
-if __name__ == '__main__':
-    print("DEBUG: before set_webhook")
-    set_webhook()
-    print("DEBUG: after set_webhook")
+print("DEBUG: before set_webhook")
+set_webhook()
+print("DEBUG: after set_webhook")
 
+if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
