@@ -437,7 +437,9 @@ def handle_website(message):
     bot.send_message(message.chat.id, "Скоро будет доступно")
 
 # ---------- ВЕБХУКИ ----------
-# Создаём Flask-приложение
+from flask import Flask, request
+from telebot.types import Update
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -446,22 +448,28 @@ def index():
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    # Получаем JSON от Telegram
     json_str = request.get_data().decode('UTF-8')
     update = Update.de_json(json_str, bot)
     bot.process_new_updates([update])
     return 'OK', 200
 
 def set_webhook():
-    # Удаляем старый вебхук, если был
     bot.remove_webhook()
-    # URL сервиса на Render
-    webhook_url = 'https://capcollectorbot.onrender.com'
+    webhook_url = 'https://capcollectorbot.onrender.com/webhook'
     bot.set_webhook(url=webhook_url)
     print(f"Webhook set to {webhook_url}")
 
+# Вызываем установку вебхука сразу при загрузке модуля (сработает для gunicorn)
+set_webhook()
+
 if __name__ == '__main__':
-    # Устанавливаем вебхук при старте
-    set_webhook()
-    # Запускаем Flask-сервер
+    # Для локального запуска (не используется на Render)
     app.run(host='0.0.0.0', port=8000)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    print("📨 Webhook received")   # Это появится в логах Render
+    json_str = request.get_data().decode('UTF-8')
+    update = Update.de_json(json_str, bot)
+    bot.process_new_updates([update])
+    return 'OK', 200
