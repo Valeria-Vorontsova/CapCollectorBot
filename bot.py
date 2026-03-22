@@ -1,3 +1,5 @@
+import traceback
+
 import telebot
 from dotenv import load_dotenv
 from telebot import types
@@ -6,6 +8,7 @@ import threading
 import os
 from flask import Flask, request
 from telebot.types import Update
+import json
 
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -436,33 +439,41 @@ def handle_faq(message):
 def handle_website(message):
     bot.send_message(message.chat.id, "Скоро будет доступно")
 
+
 # ---------- ВЕБХУКИ ----------
-from flask import Flask, request
-from telebot.types import Update
 
 app = Flask(__name__)
+
 
 @app.route('/')
 def index():
     return "Bot is running"
 
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     json_str = request.get_data().decode('UTF-8')
-    update = Update.de_json(json_str)
-    bot.process_new_updates([update])
+    print("📥 Received update:", json_str)
+    try:
+        # Используем de_json для правильного создания объекта Update
+        from telebot.types import Update
+        update = Update.de_json(json_str)
+        bot.process_new_updates([update])
+        print("✅ Update processed")
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        traceback.print_exc()
+        return 'Error', 500
     return 'OK', 200
 
 def set_webhook():
     bot.remove_webhook()
     webhook_url = 'https://capcollectorbot.onrender.com/webhook'
-    bot.set_webhook(url=webhook_url)
-    print(f"Webhook set to {webhook_url}")
+    success = bot.set_webhook(url=webhook_url)
+    print(f"Webhook set to {webhook_url}, success: {success}")
 
-# Вызываем установку вебхука сразу при загрузке модуля (сработает для gunicorn)
 set_webhook()
 
 if __name__ == '__main__':
-    # Для локального запуска (не используется на Render)
     app.run(host='0.0.0.0', port=8000)
 
