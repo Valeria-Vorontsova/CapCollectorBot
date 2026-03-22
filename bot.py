@@ -434,4 +434,4 @@ def handle_faq(message):
 def handle_website(message):
     bot.send_message(message.chat.id, "Скоро будет доступно")
 
-bot.polling(none_stop=True)
+bot.infinity_polling(timeout=10, long_polling_timeout=5)
