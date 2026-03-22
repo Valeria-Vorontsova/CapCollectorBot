@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="rollback">
+    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="almost done1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ServerAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/ServerAPI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,12 +34,22 @@
     &quot;assignee&quot;: &quot;Valeria-Vorontsova&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Valeria-Vorontsova/CapCollectorBot.git&quot;,
-    &quot;accountId&quot;: &quot;c0af27aa-53a0-413d-8812-0efa4786a5f8&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Valeria-Vorontsova/CapCollectorBot.git",
+    "accountId": "c0af27aa-53a0-413d-8812-0efa4786a5f8"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "Valeria-Vorontsova",
+    "repository": "CapCollectorBot"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
@@ -60,7 +69,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "changes"
+    "git-widget-placeholder": "#1 on changes"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -134,7 +143,31 @@
       <option name="project" value="LOCAL" />
       <updated>1774183856598</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="almost done">
+      <option name="closed" value="true" />
+      <created>1774193351203</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1774193351203</updated>
+    </task>
+    <task id="LOCAL-00009" summary="almost done">
+      <option name="closed" value="true" />
+      <created>1774194448146</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1774194448146</updated>
+    </task>
+    <task id="LOCAL-00010" summary="almost done1">
+      <option name="closed" value="true" />
+      <created>1774194947734</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1774194947734</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -156,6 +189,8 @@
     <MESSAGE value="new api url, balance check, fixes" />
     <MESSAGE value="new handle_api_response, new process machine code methods, timer, queue" />
     <MESSAGE value="rollback" />
-    <option name="LAST_COMMIT_MESSAGE" value="rollback" />
+    <MESSAGE value="almost done" />
+    <MESSAGE value="almost done1" />
+    <option name="LAST_COMMIT_MESSAGE" value="almost done1" />
   </component>
 </project>
