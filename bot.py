@@ -8,6 +8,7 @@ import threading
 import os
 from flask import Flask, request
 import json
+from telebot.types import Update
 
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -35,6 +36,7 @@ def send_welcome(message):
             "Добро пожаловать в CapCollector!\n\nВыберите действие:",
             reply_markup=markup
         )
+        print("✅ Message sent")
     except Exception as e:
         print(f"❌ Error in send_welcome: {e}")
         import traceback
@@ -453,16 +455,16 @@ def index():
 
 
 @app.route('/webhook', methods=['POST'])
-@app.route('/webhook', methods=['POST'])
 def webhook():
     json_str = request.get_data().decode('UTF-8')
     print("📥 Received update:", json_str)
     try:
-        update_dict = json.loads(json_str)
-        bot.process_new_updates([update_dict])     # передаём список словарей
-        print("✅ Update processed")
+        update = Update.de_json(json_str)
+        print(f"✅ Update object created, update_id={update.update_id}")
+        bot.process_new_updates([update])
+        print("✅ Updates processed by bot")
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"❌ Error processing update: {e}")
         import traceback
         traceback.print_exc()
         return 'Error', 500
