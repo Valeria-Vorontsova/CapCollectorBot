@@ -1,11 +1,12 @@
 import telebot
+from dotenv import load_dotenv
 from telebot import types
 from ServerAPI import ServerAPI
 import threading
-import time
-from collections import defaultdict
+import os
 
-BOT_TOKEN = '8314416685:AAFtQTsB_o8QlB7fID1vObGDAveut3pkgnk'
+load_dotenv()
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 bot = telebot.TeleBot(BOT_TOKEN)
 api = ServerAPI()
 user_tokens = {}
@@ -236,8 +237,7 @@ def send_main_menu(message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
     keyboard.add("🪙 Проверить баланс", "📥 Пополнить баланс")
-    keyboard.add("🛠 Поддержка", "❓ FAQ")
-    keyboard.add("🌐 Сайт проекта")
+    keyboard.add("🌐 Сайт проекта", "❓ FAQ")
 
     bot.send_message(
         message.chat.id,
@@ -289,7 +289,7 @@ def process_machine_code(message):
             message.chat.id,
             "Вы не авторизованы ❌\nВведите email:"
         )
-        bot.register_next_step_handler(msg, process_email, msg.message_id)
+        bot.register_next_step_handler(msg, process_email)
         return
 
     code = message.text.strip()
@@ -310,7 +310,20 @@ def process_machine_code(message):
     data = api.add_to_queue(token, code)
     print(data)
 
-    if handle_api_response(bot, message, data, process_machine_code):
+    if not data:
+        msg = bot.send_message(
+            message.chat.id,
+            "Ошибка соединения 🌐\nВведите код снова:"
+        )
+        bot.register_next_step_handler(msg, process_machine_code)
+        return
+
+    if "error" in data:
+        msg = bot.send_message(
+            message.chat.id,
+            "Ошибка сервера ❌\nВведите код снова:"
+        )
+        bot.register_next_step_handler(msg, process_machine_code)
         return
 
     if data.get("status") == "Failed":
@@ -325,6 +338,7 @@ def process_machine_code(message):
 
     position = queue_data.get("user_position") or 0
     wait_time = queue_data.get("estimated_wait_time") or 0
+    my_time = queue_data.get("my_time") or 0
 
     message_text = data.get("message", "")
     prefix = "ℹ️" if "уже" in message_text.lower() else "✅"
@@ -336,13 +350,81 @@ def process_machine_code(message):
         f"⏳ Ожидание: {wait_time} сек"
     )
 
+    # если НЕ первый — ждем очередь
+    if wait_time > 0:
+        wait_for_turn(message.chat.id, token, code, wait_time)
+
+    # если сразу первый
+    else:
+        bot.send_message(
+            message.chat.id,
+            f"🔥 Вы первый в очереди!\n"
+            f"У вас есть {my_time} сек для внесения крышек"
+        )
+
+        import threading
+        threading.Timer(
+            my_time,
+            finish_session,
+            args=[message.chat.id, token]
+        ).start()
+
 def is_valid_machine_code(code):
     return isinstance(code, str) and len(code) == 4 and code.isalnum()
 
+def wait_for_turn(chat_id, token, code, wait_time):
+    def check():
+        data = api.add_to_queue(token, code)
 
-@bot.message_handler(func=lambda message: message.text == "🛠 Поддержка")
-def handle_support(message):
-    bot.send_message(message.chat.id, "Скоро будет доступно")
+        if not data or data.get("status") != "Successful":
+            bot.send_message(chat_id, "Ошибка при проверке очереди ❌")
+            return
+
+        queue_data = data.get("data", {})
+
+        position = queue_data.get("user_position", 0)
+        my_time = queue_data.get("my_time", 0)
+        wait_time_new = queue_data.get("estimated_wait_time", 0)
+
+        if position == 1:
+            bot.send_message(
+                chat_id,
+                f"🔥 Теперь ваша очередь!\nУ вас есть {my_time} сек для внесения крышек"
+            )
+
+            # запускаем завершение сессии
+            threading.Timer(my_time, finish_session, args=[chat_id, token]).start()
+
+        else:
+            bot.send_message(
+                chat_id,
+                f"⏳ Всё ещё ждёте...\nПозиция: {position}\nОсталось: {wait_time_new} сек"
+            )
+
+            threading.Timer(wait_time_new, check).start()
+
+    threading.Timer(wait_time, check).start()
+
+def finish_session(chat_id, token):
+    data = api.get_last_deposits(token)
+
+    if not data or data.get("status") != "Successful":
+        bot.send_message(chat_id, "Ошибка при получении данных ❌")
+        return
+
+    if "deposits" not in data:
+        bot.send_message(chat_id, "❌ В эту сессию вы не загружали крышки")
+        return
+
+    deposits = data.get("deposits", [])
+
+    total = sum(d.get("tokens_count", 0) for d in deposits)
+
+    bot.send_message(
+        chat_id,
+        f"✅ Сессия завершена\n"
+        f"Зачислено: {total} крышек 🪙"
+    )
 
 @bot.message_handler(func=lambda message: message.text == "❓ FAQ")
 def handle_faq(message):

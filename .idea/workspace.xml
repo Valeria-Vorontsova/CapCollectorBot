@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="new handle_api_response, new process machine code methods, timer, queue" />
+    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="rollback">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/ServerAPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,6 +58,7 @@
     "Python.ServerAPI.executor": "Run",
     "Python.bot.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "changes"
   }
@@ -121,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774183502817</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="rollback">
+      <option name="closed" value="true" />
+      <created>1774183856598</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1774183856598</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +155,7 @@
     <MESSAGE value="code fixes" />
     <MESSAGE value="new api url, balance check, fixes" />
     <MESSAGE value="new handle_api_response, new process machine code methods, timer, queue" />
-    <option name="LAST_COMMIT_MESSAGE" value="new handle_api_response, new process machine code methods, timer, queue" />
+    <MESSAGE value="rollback" />
+    <option name="LAST_COMMIT_MESSAGE" value="rollback" />
   </component>
 </project>

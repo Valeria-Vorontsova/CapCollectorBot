@@ -76,8 +76,11 @@ class ServerAPI:
     def add_to_queue(self, token, machine_code):
         url = f"{self.base_url}/api/add-to-queue/{machine_code}"
 
+        print("👉 ADD_TO_QUEUE CALLED")
+        print("URL:", url)
+        print("TOKEN:", token[:20], "...")
         try:
-            response = requests.post(
+            response = requests.get(
                 url,
                 headers={
                     "Authorization": f"Bearer {token}"
@@ -99,16 +102,24 @@ class ServerAPI:
             return {"error": "connection_error"}
 
     def get_last_deposits(self, token):
-        """Получение последних внесений крышек (за последние 2 минуты)."""
         url = f"{self.base_url}/api/get-last-deposits"
-        headers = {"Authorization": f"Bearer {token}"}
+
         try:
-            response = requests.get(url, headers=headers, timeout=10)
+            response = requests.get(
+                url,
+                headers={
+                    "Authorization": f"Bearer {token}"
+                },
+                timeout=10
+            )
+
             print("STATUS:", response.status_code)
             print("RESPONSE:", response.text)
-            if response.status_code == 200:
+
+            try:
                 return response.json()
-            else:
+            except:
                 return {"error": f"server_error{response.status_code}"}
+
         except requests.exceptions.RequestException:
             return {"error": "connection_error"}
