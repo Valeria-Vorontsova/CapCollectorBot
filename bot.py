@@ -14,6 +14,8 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 print("BOT_TOKEN:", BOT_TOKEN)
 bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
+bot.enable_save_next_step_handlers(delay=2)
+bot.load_next_step_handlers()
 api = ServerAPI()
 user_tokens = {}
 
@@ -44,7 +46,7 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def debug_all(message):
-    print("🔥 ANY MESSAGE:", message.text)
+    print("📩 MESSAGE:", repr(message.text))
 
 @bot.callback_query_handler(func=lambda call: True)
 def handle_login(call):
