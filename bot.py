@@ -7,7 +7,6 @@ from ServerAPI import ServerAPI
 import threading
 import os
 from flask import Flask, request
-from telebot.types import Update
 import json
 
 load_dotenv()
@@ -454,17 +453,17 @@ def index():
 
 
 @app.route('/webhook', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook():
     json_str = request.get_data().decode('UTF-8')
     print("📥 Received update:", json_str)
     try:
-        # Используем de_json для правильного создания объекта Update
-        from telebot.types import Update
-        update = Update.de_json(json_str)
-        bot.process_new_updates([update])
+        update_dict = json.loads(json_str)
+        bot.process_new_updates([update_dict])     # передаём список словарей
         print("✅ Update processed")
     except Exception as e:
         print(f"❌ Error: {e}")
+        import traceback
         traceback.print_exc()
         return 'Error', 500
     return 'OK', 200
