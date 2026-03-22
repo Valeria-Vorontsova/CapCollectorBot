@@ -446,13 +446,13 @@ def handle_website(message):
 
 # ---------- ВЕБХУКИ ----------
 
-app = Flask(__name__)
+print("DEBUG: handlers defined")
 
+app = Flask(__name__)
 
 @app.route('/')
 def index():
     return "Bot is running"
-
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -471,13 +471,15 @@ def webhook():
     return 'OK', 200
 
 def set_webhook():
+    print("DEBUG: inside set_webhook")
     bot.remove_webhook()
     webhook_url = 'https://capcollectorbot.onrender.com/webhook'
     success = bot.set_webhook(url=webhook_url)
     print(f"Webhook set to {webhook_url}, success: {success}")
 
+print("DEBUG: before set_webhook")
 set_webhook()
-
+print("DEBUG: after set_webhook")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
