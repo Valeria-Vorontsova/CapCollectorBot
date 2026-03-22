@@ -19,25 +19,27 @@ user_tokens = {}
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    markup = types.InlineKeyboardMarkup()
-
-    btn_register = types.InlineKeyboardButton(
-        text="Зарегистрироваться",
-        callback_data="register"
-    )
-
-    btn_login = types.InlineKeyboardButton(
-        text="Войти",
-        callback_data="login"
-    )
-
-    markup.add(btn_register, btn_login)
-
-    bot.send_message(
-        message.chat.id,
-        "Добро пожаловать в CapCollector!\n\nВыберите действие:",
-        reply_markup=markup
-    )
+    print("🔥 send_welcome called")
+    try:
+        markup = types.InlineKeyboardMarkup()
+        btn_register = types.InlineKeyboardButton(
+            text="Зарегистрироваться",
+            callback_data="register"
+        )
+        btn_login = types.InlineKeyboardButton(
+            text="Войти",
+            callback_data="login"
+        )
+        markup.add(btn_register, btn_login)
+        bot.send_message(
+            message.chat.id,
+            "Добро пожаловать в CapCollector!\n\nВыберите действие:",
+            reply_markup=markup
+        )
+    except Exception as e:
+        print(f"❌ Error in send_welcome: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -474,6 +476,7 @@ def set_webhook():
     print(f"Webhook set to {webhook_url}, success: {success}")
 
 set_webhook()
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
