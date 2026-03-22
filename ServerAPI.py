@@ -2,7 +2,7 @@ import requests
 
 class ServerAPI:
     def __init__(self):
-        self.base_url = "https://caps-project-ece7kiqgc-georgplotnikov03-8623s-projects.vercel.app"
+        self.base_url = "https://caps-project-8y8ucy8z0-georgplotnikov03-8623s-projects.vercel.app"
 
     def login(self, email, password):
         url = f"{self.base_url}/api/login"
@@ -71,4 +71,44 @@ class ServerAPI:
 
         except requests.exceptions.RequestException as e:
             print("REQUEST ERROR:", e)
+            return {"error": "connection_error"}
+
+    def add_to_queue(self, token, machine_code):
+        url = f"{self.base_url}/api/add-to-queue/{machine_code}"
+
+        try:
+            response = requests.post(
+                url,
+                headers={
+                    "Authorization": f"Bearer {token}"
+                },
+                timeout=10
+            )
+
+            print("STATUS:", response.status_code)
+            print("RESPONSE:", response.text)
+
+            try:
+                data = response.json()
+            except:
+                return {"error": f"server_error{response.status_code}"}
+
+            return data
+
+        except requests.exceptions.RequestException:
+            return {"error": "connection_error"}
+
+    def get_last_deposits(self, token):
+        """Получение последних внесений крышек (за последние 2 минуты)."""
+        url = f"{self.base_url}/api/get-last-deposits"
+        headers = {"Authorization": f"Bearer {token}"}
+        try:
+            response = requests.get(url, headers=headers, timeout=10)
+            print("STATUS:", response.status_code)
+            print("RESPONSE:", response.text)
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return {"error": f"server_error{response.status_code}"}
+        except requests.exceptions.RequestException:
             return {"error": "connection_error"}

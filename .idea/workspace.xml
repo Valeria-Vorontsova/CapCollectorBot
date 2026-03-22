@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="code fixes">
+    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="new api url, balance check, fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ServerAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/ServerAPI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
@@ -104,7 +104,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773916258211</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="new api url, balance check, fixes">
+      <option name="closed" value="true" />
+      <created>1773932647413</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1773932647413</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -123,6 +131,7 @@
     <MESSAGE value="api register, login" />
     <MESSAGE value="register login done" />
     <MESSAGE value="code fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="code fixes" />
+    <MESSAGE value="new api url, balance check, fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="new api url, balance check, fixes" />
   </component>
 </project>
