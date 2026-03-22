@@ -44,9 +44,9 @@ def send_welcome(message):
         import traceback
         traceback.print_exc()
 
-@bot.message_handler(func=lambda message: True)
+'''@bot.message_handler(func=lambda message: True)
 def debug_all(message):
-    print("📩 MESSAGE:", repr(message.text))
+    print("📩 MESSAGE:", repr(message.text))'''
 
 @bot.callback_query_handler(func=lambda call: True)
 def handle_login(call):
@@ -448,6 +448,9 @@ def handle_faq(message):
 def handle_website(message):
     bot.send_message(message.chat.id, "Скоро будет доступно")
 
+@bot.message_handler(func=lambda message: True)
+def fallback(message):
+    print("❗ UNKNOWN:", repr(message.text))
 
 # ---------- ВЕБХУКИ ----------
 
