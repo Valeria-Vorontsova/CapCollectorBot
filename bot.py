@@ -449,7 +449,7 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     json_str = request.get_data().decode('UTF-8')
-    update = Update.de_json(json_str, bot)
+    update = Update.de_json(json_str)
     bot.process_new_updates([update])
     return 'OK', 200
 
