@@ -4,6 +4,8 @@ from telebot import types
 from ServerAPI import ServerAPI
 import threading
 import os
+from flask import Flask, request
+from telebot.types import Update
 
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -434,4 +436,32 @@ def handle_faq(message):
 def handle_website(message):
     bot.send_message(message.chat.id, "Скоро будет доступно")
 
-bot.infinity_polling(timeout=10, long_polling_timeout=5)
+# ---------- ВЕБХУКИ ----------
+# Создаём Flask-приложение
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Bot is running"
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    # Получаем JSON от Telegram
+    json_str = request.get_data().decode('UTF-8')
+    update = Update.de_json(json_str, bot)
+    bot.process_new_updates([update])
+    return 'OK', 200
+
+def set_webhook():
+    # Удаляем старый вебхук, если был
+    bot.remove_webhook()
+    # URL сервиса на Render
+    webhook_url = 'https://capcollectorbot.onrender.com'
+    bot.set_webhook(url=webhook_url)
+    print(f"Webhook set to {webhook_url}")
+
+if __name__ == '__main__':
+    # Устанавливаем вебхук при старте
+    set_webhook()
+    # Запускаем Flask-сервер
+    app.run(host='0.0.0.0', port=8000)
