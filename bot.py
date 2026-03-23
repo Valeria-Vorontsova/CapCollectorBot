@@ -360,12 +360,8 @@ def process_machine_code(message):
     my_time = queue_data.get("my_time") or 0
 
     message_text = data.get("message", "")
-    prefix = "ℹ️" if "уже" in message_text.lower() else "✅"
-    if "уже" in message_text.lower():
-        bot.send_message(
-            message.chat.id,
-            "⚠️ Вы уже в очереди. Обновляю статус..."
-        )
+    is_already_in_queue = "уже" in message_text.lower()
+    prefix = "ℹ️" if is_already_in_queue else "✅"
 
     bot.send_message(
         message.chat.id,
