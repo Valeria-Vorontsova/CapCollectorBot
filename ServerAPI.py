@@ -1,27 +1,37 @@
 import requests
+import time
 
 class ServerAPI:
     def __init__(self):
-        self.base_url = "https://caps-project-8y8ucy8z0-georgplotnikov03-8623s-projects.vercel.app"
+        self.base_url = "https://caps-project-3fyz2v9aw-georgplotnikov03-8623s-projects.vercel.app"
 
     def login(self, email, password):
         url = f"{self.base_url}/api/login"
 
-        try:
-            response = (requests.post
-                (url,
-                json={"email": email, "password": password, "client_type": "telegram"},
-                timeout = 5
-            ))
-            print("STATUS:", response.status_code)
-            print("RESPONSE:", response.text)
+        for attempt in range(2):  # 2 попытки достаточно
+            try:
+                response = requests.post(
+                    url,
+                    json={
+                        "email": email,
+                        "password": password,
+                        "client_type": "telegram"
+                    },
+                    timeout=3
+                )
 
-            return response.json()
+                print(f"LOGIN ATTEMPT {attempt + 1} STATUS:", response.status_code)
+                print("RESPONSE:", response.text)
 
-        except Exception as e:
-            print("ERROR:", e)  # 👈 КЛЮЧЕВОЕ
-            return {"error": "connection_error"}
-            '''if response.status_code == 200:
+                if response.status_code == 200:
+                    return response.json()
+
+            except requests.exceptions.RequestException as e:
+                print(f"LOGIN ATTEMPT {attempt + 1} ERROR:", e)
+                time.sleep(1)
+
+        return {"error": "connection_error"}
+        '''if response.status_code == 200:
                 return response.json()
             else:
                 return {"error": "connection_error"}
@@ -31,25 +41,83 @@ class ServerAPI:
     def register(self, email, password, telegram_id):
         url = f"{self.base_url}/api/register"
 
-        try:
-            response = (requests.post(
-                url,
-                json={"email": email, "password": password, "cient_type": "telegram"},
-                timeout = 5
-            ))
-            print("STATUS:", response.status_code)
-            print("RESPONSE:", response.text)
+        for attempt in range(2):
+            try:
+                response = requests.post(
+                    url,
+                    json={
+                        "email": email,
+                        "password": password,
+                        "client_type": "telegram"
+                    },
+                    timeout=3
+                )
 
-            if response.status_code in (200, 201):
+                print(f"REGISTER ATTEMPT {attempt + 1} STATUS:", response.status_code)
+                print("RESPONSE:", response.text)
+
+                if response.status_code in (200, 201):
+                    return response.json()
+
+                elif response.status_code == 400:
+                    return {"error": "user_exists_or_invalid_data"}
+
+            except requests.exceptions.RequestException as e:
+                print(f"REGISTER ATTEMPT {attempt + 1} ERROR:", e)
+                time.sleep(1)
+
+        return {"error": "connection_error"}
+
+    def add_to_queue(self, token, machine_code):
+        url = f"{self.base_url}/api/add-to-queue/{machine_code}"
+
+        for attempt in range(2):
+            try:
+                response = requests.post(
+                    url,
+                    headers={
+                        "Authorization": f"Bearer {token}"
+                    },
+                    timeout=3
+                )
+
+                print(f"QUEUE ATTEMPT {attempt + 1} STATUS:", response.status_code)
+                print("RESPONSE:", response.text)
+
+                try:
+                    return response.json()
+                except:
+                    return {"error": f"server_error{response.status_code}"}
+
+            except requests.exceptions.RequestException as e:
+                print(f"QUEUE ATTEMPT {attempt + 1} ERROR:", e)
+                time.sleep(1)
+
+        return {"error": "connection_error"}
+
+    def get_last_deposits(self, token):
+        url = f"{self.base_url}/api/get-last-deposits"
+
+        for attempt in range(2):
+            try:
+                response = requests.get(
+                    url,
+                    headers={
+                        "Authorization": f"Bearer {token}"
+                    },
+                    timeout=3
+                )
+
+                print(f"DEPOSITS ATTEMPT {attempt + 1} STATUS:", response.status_code)
+                print("RESPONSE:", response.text)
+
                 return response.json()
 
-            elif response.status_code == 400:
-                return {"error": "user_exists_or_invalid_data"}
+            except requests.exceptions.RequestException as e:
+                print(f"DEPOSITS ATTEMPT {attempt + 1} ERROR:", e)
+                time.sleep(1)
 
-            else:
-                return {"error": f"server_error{response.status_code}"}
-        except requests.exceptions.RequestException:
-            return {"error": "connection_error"}
+        return {"error": "connection_error"}
 
     def get_current_user(self, token):
         url = f"{self.base_url}/api/current-user"
@@ -58,68 +126,18 @@ class ServerAPI:
             "Authorization": f"Bearer {token}"
         }
 
-        try:
-            response = requests.get(url, headers=headers)
-
-            print("STATUS:", response.status_code)
-            print("RESPONSE:", response.text)
-
-            if response.status_code == 200:
-                return response.json()
-            else:
-                return {"error": f"server_error{response.status_code}"}
-
-        except requests.exceptions.RequestException as e:
-            print("REQUEST ERROR:", e)
-            return {"error": "connection_error"}
-
-    def add_to_queue(self, token, machine_code):
-        url = f"{self.base_url}/api/add-to-queue/{machine_code}"
-
-        print("👉 ADD_TO_QUEUE CALLED")
-        print("URL:", url)
-        print("TOKEN:", token[:20], "...")
-        try:
-            response = requests.get(
-                url,
-                headers={
-                    "Authorization": f"Bearer {token}"
-                },
-                timeout=10
-            )
-
-            print("STATUS:", response.status_code)
-            print("RESPONSE:", response.text)
-
+        for attempt in range(2):
             try:
-                data = response.json()
-            except:
-                return {"error": f"server_error{response.status_code}"}
+                response = requests.get(url, headers=headers, timeout=3)
 
-            return data
+                print(f"USER ATTEMPT {attempt + 1} STATUS:", response.status_code)
+                print("RESPONSE:", response.text)
 
-        except requests.exceptions.RequestException:
-            return {"error": "connection_error"}
+                if response.status_code == 200:
+                    return response.json()
 
-    def get_last_deposits(self, token):
-        url = f"{self.base_url}/api/get-last-deposits"
+            except requests.exceptions.RequestException as e:
+                print(f"USER ATTEMPT {attempt + 1} ERROR:", e)
+                time.sleep(1)
 
-        try:
-            response = requests.get(
-                url,
-                headers={
-                    "Authorization": f"Bearer {token}"
-                },
-                timeout=10
-            )
-
-            print("STATUS:", response.status_code)
-            print("RESPONSE:", response.text)
-
-            try:
-                return response.json()
-            except:
-                return {"error": f"server_error{response.status_code}"}
-
-        except requests.exceptions.RequestException:
-            return {"error": "connection_error"}
+        return {"error": "connection_error"}
