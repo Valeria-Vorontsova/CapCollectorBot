@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="almost done16 webhook">
+    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="connection error handler changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ServerAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/ServerAPI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,7 +303,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774213007680</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="connection error handler changes">
+      <option name="closed" value="true" />
+      <created>1774261019291</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1774261019291</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -343,6 +350,7 @@
     <MESSAGE value="almost done14 webhook" />
     <MESSAGE value="almost done15 webhook" />
     <MESSAGE value="almost done16 webhook" />
-    <option name="LAST_COMMIT_MESSAGE" value="almost done16 webhook" />
+    <MESSAGE value="connection error handler changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="connection error handler changes" />
   </component>
 </project>
