@@ -112,6 +112,7 @@ def process_register_password(message, email, bot_msg_id=None):
 
     telegram_id = message.from_user.id
 
+    bot.send_message(message.chat.id, "⏳ Регистрация...")
     data = api.register(email, password, telegram_id)
     print(data)
 
@@ -172,10 +173,12 @@ def process_password(message, email, bot_msg_id=None):
     except:
         pass
 
+    bot.send_message(message.chat.id, "⏳ Вход...")
     data = api.login(email, password)
     print(data)
 
     if handle_api_response(bot, message, data, process_email):
+        bot.send_message(message.chat.id, "Введите email ещё раз:")
         return
 
     token = data.get("access_token")
@@ -223,7 +226,7 @@ def handle_api_response(bot, message, data, retry_callback):
 
     if "error" in data:
         if data["error"] == "connection_error":
-            text = "Нет соединения с сервером 🌐\nПопробуйте снова:"
+            text = "⏳ Сервер отвечает медленно, пробуем ещё раз..."
         elif data["error"].startswith("server_error"):
             text = "Ошибка сервера ⚙️\nПопробуйте снова:"
         else:
@@ -273,6 +276,7 @@ def handle_check_balance(message):
         bot.register_next_step_handler(msg, process_email, msg.message_id)
         return
     print("TOKEN:", token) #TEST
+    bot.send_message(message.chat.id, "⏳ Получаю баланс...")
     data = api.get_current_user(token)
     print("DATA:", data) #TEST
     if handle_api_response(bot, message, data, process_email):
@@ -321,6 +325,7 @@ def process_machine_code(message):
         bot.register_next_step_handler(msg, process_machine_code)
         return
 
+    bot.send_message(message.chat.id, "⏳ Проверяю установку...")
     data = api.add_to_queue(token, code)
     print(data)
 
@@ -430,6 +435,7 @@ def finish_session(chat_id, token):
         bot.send_message(chat_id, "❌ В эту сессию вы не загружали крышки")
         return
 
+    bot.send_message(chat_id, "⏳ Получаю данные о внесённых крышках...")
     deposits = data.get("deposits", [])
 
     total = sum(d.get("tokens_count", 0) for d in deposits)
