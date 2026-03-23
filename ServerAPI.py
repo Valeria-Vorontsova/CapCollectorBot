@@ -86,11 +86,38 @@ class ServerAPI:
     def add_to_queue(self, token, machine_code):
         url = f"{self.base_url}/api/add-to-queue/{machine_code}"
 
+        print("👉 ADD_TO_QUEUE CALLED")
+        print("URL:", url)
+        print("TOKEN:", token[:20], "...")
         try:
-            print("👉 ADD_TO_QUEUE CALLED")
-            print("URL:", url)
+            response = requests.get(
+                url,
+                headers={
+                    "Authorization": f"Bearer {token}"
+                },
+                timeout=10
+            )
 
-            response = requests.post(
+            print("STATUS:", response.status_code)
+            print("RESPONSE:", response.text)
+
+            try:
+                data = response.json()
+            except:
+                return {"error": f"server_error{response.status_code}"}
+
+            return data
+
+        except requests.exceptions.RequestException:
+            return {"error": "connection_error"}
+
+    # DEPOSITS
+
+    def get_last_deposits(self, token):
+        url = f"{self.base_url}/api/get-last-deposits"
+
+        try:
+            response = requests.get(
                 url,
                 headers={
                     "Authorization": f"Bearer {token}"
@@ -106,19 +133,5 @@ class ServerAPI:
             except:
                 return {"error": f"server_error{response.status_code}"}
 
-        except requests.exceptions.RequestException as e:
-            print("❌ QUEUE ERROR:", e)
+        except requests.exceptions.RequestException:
             return {"error": "connection_error"}
-
-    # DEPOSITS
-
-    def get_last_deposits(self, token):
-        url = f"{self.base_url}/api/get-last-deposits"
-
-        return self._request_with_retry(
-            "GET",
-            url,
-            headers={
-                "Authorization": f"Bearer {token}"
-            }
-        )
