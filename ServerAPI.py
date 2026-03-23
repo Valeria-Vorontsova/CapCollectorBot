@@ -86,13 +86,29 @@ class ServerAPI:
     def add_to_queue(self, token, machine_code):
         url = f"{self.base_url}/api/add-to-queue/{machine_code}"
 
-        return self._request_with_retry(
-            "POST",
-            url,
-            headers={
-                "Authorization": f"Bearer {token}"
-            }
-        )
+        try:
+            print("👉 ADD_TO_QUEUE CALLED")
+            print("URL:", url)
+
+            response = requests.post(
+                url,
+                headers={
+                    "Authorization": f"Bearer {token}"
+                },
+                timeout=10
+            )
+
+            print("STATUS:", response.status_code)
+            print("RESPONSE:", response.text)
+
+            try:
+                return response.json()
+            except:
+                return {"error": f"server_error{response.status_code}"}
+
+        except requests.exceptions.RequestException as e:
+            print("❌ QUEUE ERROR:", e)
+            return {"error": "connection_error"}
 
     # DEPOSITS
 
