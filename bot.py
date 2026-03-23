@@ -444,12 +444,14 @@ def finish_session(chat_id, token):
     bot.send_message(chat_id, "⏳ Получаю данные о внесённых крышках...")
     deposits = data.get("deposits", [])
 
+    user = data.get("user", {})
     total = sum(d.get("tokens_count", 0) for d in deposits)
-
+    balance = user.get("balance", 0)
     bot.send_message(
         chat_id,
         f"✅ Сессия завершена\n"
-        f"Зачислено: {total} крышек 🪙"
+        f"Зачислено: {total} крышек 🪙\n"
+        f"💰 Текущий баланс: {balance}"
     )
 
 @bot.message_handler(func=lambda message: message.text == "❓ FAQ")
