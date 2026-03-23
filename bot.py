@@ -360,7 +360,8 @@ def process_machine_code(message):
     my_time = queue_data.get("my_time") or 0
 
     message_text = data.get("message", "")
-    prefix = "ℹ️" if "уже" in message_text.lower() else "✅"
+    is_already_in_queue = "уже" in message_text.lower()
+    prefix = "ℹ️" if is_already_in_queue else "✅"
 
     bot.send_message(
         message.chat.id,
@@ -373,15 +374,20 @@ def process_machine_code(message):
     if wait_time > 0:
         wait_for_turn(message.chat.id, token, code, wait_time)
 
-    # если сразу первый
     else:
+        if my_time <= 0:
+            bot.send_message(
+                message.chat.id,
+                "⚠️ Время для внесения уже истекло или недоступно.\nПопробуйте снова."
+            )
+            return
+
         bot.send_message(
             message.chat.id,
             f"🔥 Вы первый в очереди!\n"
             f"У вас есть {my_time} сек для внесения крышек"
         )
 
-        import threading
         threading.Timer(
             my_time,
             finish_session,
