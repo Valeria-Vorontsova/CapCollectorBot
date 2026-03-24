@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="фикс на вывод о балансе после поплнения">
+    <list default="true" id="bc04733f-28ff-435d-8099-1c05332efc1f" name="Changes" comment="пробуждение бота">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
     </list>
@@ -367,7 +367,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774268329124</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="пробуждение бота">
+      <option name="closed" value="true" />
+      <created>1774370993151</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1774370993152</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -382,7 +390,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="new api url, balance check, fixes" />
     <MESSAGE value="new handle_api_response, new process machine code methods, timer, queue" />
     <MESSAGE value="rollback" />
     <MESSAGE value="almost done" />
@@ -407,6 +414,7 @@
     <MESSAGE value="changes" />
     <MESSAGE value="remake pay balance api" />
     <MESSAGE value="фикс на вывод о балансе после поплнения" />
-    <option name="LAST_COMMIT_MESSAGE" value="фикс на вывод о балансе после поплнения" />
+    <MESSAGE value="пробуждение бота" />
+    <option name="LAST_COMMIT_MESSAGE" value="пробуждение бота" />
   </component>
 </project>

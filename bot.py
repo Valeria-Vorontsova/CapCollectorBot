@@ -458,15 +458,30 @@ def finish_session(chat_id, token):
 def handle_faq(message):
     bot.send_message(message.chat.id, "Скоро будет доступно")
 
+from telebot import types
+
 @bot.message_handler(func=lambda message: message.text == "🌐 Сайт проекта")
 def handle_website(message):
-    bot.send_message(message.chat.id, "Скоро будет доступно")
+    markup = types.InlineKeyboardMarkup()
+
+    btn = types.InlineKeyboardButton(
+        text="🚀 Перейти на сайт",
+        url="https://caps-collector-front.vercel.app"
+    )
+
+    markup.add(btn)
+
+    bot.send_message(
+        message.chat.id,
+        "Открыть сайт проекта:",
+        reply_markup=markup
+    )
 
 @bot.message_handler(func=lambda message: True)
 def fallback(message):
     print("❗ UNKNOWN:", repr(message.text))
 
-# ---------- ВЕБХУКИ ----------
+# ВЕБХУКИ
 
 print("DEBUG: handlers defined")
 
