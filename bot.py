@@ -474,7 +474,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Bot is running"
+    return "Bot is running", 200
+
+@app.route('/ping')
+def ping():
+    return "ok", 200
 
 
 @app.route('/webhook', methods=['POST'])
@@ -484,9 +488,13 @@ def webhook():
         print("📥 Received update:", json_data)
 
         update = telebot.types.Update.de_json(json_data)
-        bot.process_new_updates([update])
 
-        print("✅ Updates processed by bot")
+        #  Асинхронная обработка
+        threading.Thread(
+            target=bot.process_new_updates,
+            args=([update],),
+            daemon=True
+        ).start()
 
     except Exception as e:
         print(f"❌ Error processing update: {e}")
@@ -509,9 +517,10 @@ def set_webhook():
     except Exception as e:
         print("❌ Webhook error:", e)
 
-print("DEBUG: before set_webhook")
-set_webhook()
-print("DEBUG: after set_webhook")
+if os.environ.get("SET_WEBHOOK") == "1":
+    print("DEBUG: setting webhook")
+    set_webhook()
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
