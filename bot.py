@@ -437,23 +437,21 @@ def finish_session(chat_id, token):
         bot.send_message(chat_id, "Ошибка при получении данных ❌")
         return
 
-    if "deposits" not in data:
+    deposits = data.get("deposits", [])
+    if not deposits:
         bot.send_message(chat_id, "❌ В эту сессию вы не загружали крышки")
         return
 
-    bot.send_message(chat_id, "⏳ Получаю данные о внесённых крышках...")
-    deposits = data.get("deposits", [])
-
-    user = data.get("user") or {}
-
-    current_balance = user.get("balance")
-    if current_balance is None:
-        current_balance = 0
-
     total = sum(d.get("tokens_count", 0) for d in deposits)
+    bot.send_message(chat_id, "⏳ Получаю данные о внесённых крышках...")
 
-    # итоговый баланс
-    balance = current_balance + total
+    # --- Получаем актуальный баланс с сервера ---
+    user_data = api.get_current_user(token)
+    if not user_data or "user" not in user_data:
+        bot.send_message(chat_id, "Ошибка при получении текущего баланса ❌")
+        return
+
+    balance = user_data["user"].get("balance", 0)
 
     bot.send_message(
         chat_id,
