@@ -458,8 +458,6 @@ def finish_session(chat_id, token):
 def handle_faq(message):
     bot.send_message(message.chat.id, "Скоро будет доступно")
 
-from telebot import types
-
 @bot.message_handler(func=lambda message: message.text == "🌐 Сайт проекта")
 def handle_website(message):
     markup = types.InlineKeyboardMarkup()
@@ -487,15 +485,13 @@ print("DEBUG: handlers defined")
 
 app = Flask(__name__)
 
-@app.route('/')
+# ДЛЯ UPTIMEROBOT
+@app.route('/', methods=['GET'])
 def index():
-    return "Bot is running", 200
-
-@app.route('/ping')
-def ping():
-    return "ok", 200
+    return "OK", 200
 
 
+# WEBHOOK
 @app.route('/webhook', methods=['POST'])
 def webhook():
     try:
@@ -504,39 +500,40 @@ def webhook():
 
         update = telebot.types.Update.de_json(json_data)
 
-        #  Асинхронная обработка
         threading.Thread(
             target=bot.process_new_updates,
             args=([update],),
             daemon=True
         ).start()
 
+        return 'OK', 200
+
     except Exception as e:
         print(f"❌ Error processing update: {e}")
         traceback.print_exc()
         return 'Error', 500
 
-    return 'OK', 200
 
-
+# УСТАНОВКА WEBHOOK ВСЕГДА ПРИ СТАРТЕ
 def set_webhook():
     webhook_url = 'https://capcollectorbot.onrender.com/webhook'
 
     try:
         bot.remove_webhook()
-        success = bot.set_webhook(url=webhook_url)
+        bot.set_webhook(url=webhook_url)
 
-        print("Webhook set:", success)
-        print("Webhook info:", bot.get_webhook_info())
+        info = bot.get_webhook_info()
+        print("✅ Webhook set")
+        print("📊 Webhook info:", info)
 
     except Exception as e:
         print("❌ Webhook error:", e)
 
-if os.environ.get("SET_WEBHOOK") == "1":
-    print("DEBUG: setting webhook")
-    set_webhook()
+# ВСЕГДА ВЫЗЫВАЕМ ПРИ ЗАПУСКЕ
+set_webhook()
 
 
+# ЗАПУСК
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
