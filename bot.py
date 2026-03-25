@@ -444,9 +444,17 @@ def finish_session(chat_id, token):
     bot.send_message(chat_id, "⏳ Получаю данные о внесённых крышках...")
     deposits = data.get("deposits", [])
 
-    user = data.get("user", {})
+    user = data.get("user") or {}
+
+    current_balance = user.get("balance")
+    if current_balance is None:
+        current_balance = 0
+
     total = sum(d.get("tokens_count", 0) for d in deposits)
-    balance = user.get("balance", 0) + total
+
+    # итоговый баланс
+    balance = current_balance + total
+
     bot.send_message(
         chat_id,
         f"✅ Сессия завершена\n"
